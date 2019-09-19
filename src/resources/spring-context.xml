@@ -3,8 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
   
-  <bean id="Reader" class="dao.ReaderImpl" >
+  <bean id="questionReader" class="dao.ReaderImpl" >
   <property name = "path" value = "resources/Questions01.csv"></property>
    </bean>
 
+ <bean id="examinator" class="service.ExaminatorImpl" >
+  <property name = "reader" ref = "questionReader"></property>
+   </bean>
 </beans>

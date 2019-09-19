@@ -12,11 +12,9 @@ public class ExaminatorImpl implements Examinator{
 	private String fio;
 	private int result;
 	
-	public ExaminatorImpl(Reader reader)
+	public void setReader(Reader reader)
 	{
 		this.reader = reader;
-		this.fio = null;
-		this.result = 0;
 	}
 	@Override
 	public void takeExam() 

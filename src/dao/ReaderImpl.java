@@ -13,15 +13,14 @@ public class ReaderImpl implements Reader{
 	
 	@Override
 	public ArrayList<Question> readQuestions() 
-	{
-	
+	{	
 		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
 		
 		InputStreamReader isr = new InputStreamReader(inputStream);
 		BufferedReader reader = new BufferedReader(isr);
 		String line = "";
 		String cvsSplitBy = ";";
-		ArrayList<Question> questionList = new  ArrayList();
+		ArrayList<Question> questionList = new  ArrayList<Question>();
 		
 		 try {
 			 
@@ -43,10 +42,11 @@ public class ReaderImpl implements Reader{
 			     }
 			 }
 			 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		 catch (IOException e) 
+		 {			
 			e.printStackTrace();
-		}
+		 }
 		
 		
 		return questionList;
