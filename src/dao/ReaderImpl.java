@@ -46,8 +46,7 @@ public class ReaderImpl implements Reader{
 		 catch (IOException e) 
 		 {			
 			e.printStackTrace();
-		 }
-		
+		 }		
 		
 		return questionList;
 	}

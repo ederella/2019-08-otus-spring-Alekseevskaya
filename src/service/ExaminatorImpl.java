@@ -25,11 +25,9 @@ public class ExaminatorImpl implements Examinator{
 			ArrayList<Question> ql = reader.readQuestions();
 			
 			if(ql.size()>0)
-			{
-				
+			{				
 				System.out.println("Enter your name");
-				this.fio = sc.nextLine();
-				
+				this.fio = sc.nextLine();				
 				
 				System.out.println("Answer the questions below");
 		
