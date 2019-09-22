@@ -1,21 +1,26 @@
 package main;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import dao.Reader;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 import service.Examinator;
-import service.ExaminatorImpl;
-
+@Configuration
+@ComponentScan(basePackages="dao, service, config")
+@PropertySource("classpath:resources/application.properties")
 public class Main
 {
 	public static void main(String[] args) 
 	{
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("resources/spring-context.xml");
-			Examinator exam = context.getBean(Examinator.class);
+			AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+			ctx.register(Main.class);	
+			ctx.refresh();
+			Examinator exam = ctx.getBean(Examinator.class);
 			exam.takeExam();
 			exam.printResult();
-			context.close();
+			ctx.close();
 	}
-
 }
 
