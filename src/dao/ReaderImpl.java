@@ -5,12 +5,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.stereotype.Service;
 
 import service.Question;
 
-public class ReaderImpl implements Reader{
-	private String path;
+@Service
+public class ReaderImpl implements Reader
+{
+	private String path;	
+
 	
+	public ReaderImpl(@Value("${questions.path.ru}") String pathRU, 
+			@Value("${questions.path.en}") String pathDefault,
+			@Value("${user.locale}")Locale locale) 
+	{
+		if(locale.getLanguage().equalsIgnoreCase("ru"))
+			this.path = pathRU;
+		else
+			this.path = pathDefault;
+	}
+
 	@Override
 	public ArrayList<Question> readQuestions() 
 	{	
@@ -40,8 +60,7 @@ public class ReaderImpl implements Reader{
 			    	 Question question = new Question(questionText, word[word.length-1]);
 			    	 questionList.add(question);
 			     }
-			 }
-			 
+			 }			 
 		} 
 		 catch (IOException e) 
 		 {			
@@ -51,9 +70,11 @@ public class ReaderImpl implements Reader{
 		return questionList;
 	}
 	
+	@Override
 	public void setPath(String path)
 	{
 		this.path= path;
 	}
+	
 	
 }

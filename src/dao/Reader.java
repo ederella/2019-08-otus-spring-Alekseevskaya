@@ -6,4 +6,6 @@ import service.Question;
 public interface Reader {
 
 	ArrayList<Question> readQuestions();
+
+	void setPath(String path);
 }
