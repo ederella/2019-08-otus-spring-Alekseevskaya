@@ -1,4 +1,4 @@
-package service;
+package otus.spring.main.service;
 
 import java.util.Locale;
 
@@ -22,7 +22,7 @@ public class ExamineMessageSource {
 	private MessageSource defineMessageSource() 
 	{ 
 		ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-		ms.setBasename("resources/i18n/bundle");
+		ms.setBasename("i18n/bundle");
 		return ms;
 	}
 	public MessageSource getMessageSource()

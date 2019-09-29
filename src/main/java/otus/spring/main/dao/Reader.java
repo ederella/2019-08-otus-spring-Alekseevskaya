@@ -1,7 +1,7 @@
-package dao;
+package otus.spring.main.dao;
 
 import java.util.ArrayList;
-import service.Question;
+import otus.spring.main.service.Question;
 
 public interface Reader {
 
