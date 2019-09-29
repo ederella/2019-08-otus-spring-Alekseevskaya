@@ -1,26 +1,20 @@
-package service;
+package otus.spring.main.service;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
-
-import dao.Reader;
-import service.Question;
+import otus.spring.main.dao.Reader;
+import otus.spring.main.service.Question;
 
 @Service
 public class ExaminatorImpl implements Examinator
 {	
-	private Reader reader;
+	private final Reader reader;
 	private String fio;
 	private int result;
 	private int minimumRightAnswers;
-	private ExamineMessageSource messageSource;
+	private final ExamineMessageSource messageSource;
 	
 	public ExaminatorImpl(Reader reader,
 			@Value("${questions.minimum}")int minimumRightAnswers,
@@ -102,11 +96,8 @@ public class ExaminatorImpl implements Examinator
 			else
 				System.out.println(messageSource.getMessage("result.examfailed"));
 		}
+		
 		System.out.println("");
 		System.out.println("****************************************");
-
 	}
-	
-	
-
 }
