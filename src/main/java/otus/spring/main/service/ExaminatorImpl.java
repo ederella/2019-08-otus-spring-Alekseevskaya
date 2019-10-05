@@ -34,18 +34,21 @@ public class ExaminatorImpl implements Examinator
 	}
 	
 	@Override
+	public void setFIO(String fio)
+	{
+		this.fio = fio;
+	}
+	
+	@Override
 	public void takeExam() 
 	{		
-		Scanner sc = new Scanner(System.in);
+			Scanner sc = new Scanner(System.in);
 		try
 		{
 			ArrayList<Question> ql = reader.readQuestions();
-			
+
 			if(ql.size()>0)
-			{				
-				System.out.println(messageSource.getMessage("user.askname"));
-				this.fio = sc.nextLine();
-							
+			{							
 				System.out.println(messageSource.getMessage("questions.header"));
 		
 				for (int i = 0 ; i< ql.size(); i++)
@@ -72,32 +75,35 @@ public class ExaminatorImpl implements Examinator
 		catch(Exception e)
 		{}
 		finally
-		{
-			sc.close();
-		}
+		{}
 
 	}
-	
+
 	@Override
-	public void printResult ()
+	public String getStringResult ()
 	{
-		System.out.println("");
-		System.out.println("**************" + messageSource.getMessage("result.header") +"*******************");
-		System.out.println("");
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n");
+		sb.append("**************" + messageSource.getMessage("result.header") +"*******************");
+		sb.append("\n");
 		
 		if(!this.fio.isEmpty())
-		 System.out.println(messageSource.getMessage("result.studentname",fio));
-		 System.out.println(messageSource.getMessage("result.points", String.valueOf(this.result)));
+			sb.append(messageSource.getMessage("result.studentname", this.fio)+"\n");
+		
+		sb.append(messageSource.getMessage("result.points", String.valueOf(this.result)));
+		sb.append("\n");
 		
 		if(this.minimumRightAnswers > 0)
 		{
 			if(this.result >= minimumRightAnswers)
-				System.out.println(messageSource.getMessage("result.exampassed"));
+				sb.append(messageSource.getMessage("result.exampassed"));
 			else
-				System.out.println(messageSource.getMessage("result.examfailed"));
+				sb.append(messageSource.getMessage("result.examfailed"));
+			sb.append("\n");
 		}
 		
-		System.out.println("");
-		System.out.println("****************************************");
+		sb.append("****************************************");
+		
+		return sb.toString();
 	}
 }
