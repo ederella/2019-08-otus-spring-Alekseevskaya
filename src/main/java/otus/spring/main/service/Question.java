@@ -1,4 +1,4 @@
-package service;
+package otus.spring.main.service;
 
 public class Question {
 	

@@ -1,0 +1,13 @@
+questions:
+   path:
+      en:   Questions01.csv
+      ru:   Questions02.csv
+   minimum:   3
+   
+user:
+   locale:   en_EN
+
+spring:
+  shell:
+    interactive:
+      enabled: false 
