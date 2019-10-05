@@ -32,7 +32,6 @@ class ShellCommandsTest {
     private static final String COMMAND_EXAM = "exam";
     private static final String COMMAND_RESULT = "result";
 
-
     @DisplayName(" должен возвращать приветствие для всех форм команды логина")
     @Test
     void shouldReturnExpectedGreetingAfterLoginCommandEvaluated() 
