@@ -16,19 +16,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BookTest {
 
 	Book book;
-	
+
 	@MockBean
 	Author author;
 	
+	@MockBean
+	Genre genre;
+
 	@DisplayName(" должен заполнять поля данными и возвращать их")
 	@Test
 	void shouldFillFieldsAndReturnThem() {
 		List<Author> a = new ArrayList<Author>();
 		a.add(author);
-		List<String> s = new ArrayList<String>();
-		s.add("genre");
-		book = new Book(1,a,"name",s,10);
-		
+		List<Genre> s = new ArrayList<Genre>();
+		s.add(genre);
+		book = new Book(1, a, "name", s, 10);
+
 		assertThat(book.getAuthors() == a);
 		assertThat(book.getGenres() == s);
 		assertThat(book.getBookName().equalsIgnoreCase("name"));
@@ -39,14 +42,15 @@ class BookTest {
 	@DisplayName(" должен устанавливать количество доступных книг")
 	@Test
 	void shouldSetUpNumberOfAvailableBooks() {
-		book = new Book(null,"name",null);
+		book = new Book(null, "name", null);
 		book.setCount(100);
 		assertThat(book.getCount() == 100);
 	}
+
 	@DisplayName(" должен возвращать информацию о книге")
 	@Test
 	void shouldReturnAllInfoAboutBook() {
-		book = new Book(null,"name",null);
+		book = new Book(null, "name", null);
 		Object res = book.toString();
 		assertThat(res).isInstanceOf(String.class);
 	}
