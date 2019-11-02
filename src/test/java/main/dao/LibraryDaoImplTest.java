@@ -82,8 +82,8 @@ class LibraryDaoImplTest {
 	@DisplayName(" должен уменьшить количество книг на 1")
 	@Test
 	void shouldDecreaseNumberOfBook() {
-		long count = (Long)em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").getSingleResult();
-		library.returnBook(1L);
+		int count = (Integer)em.getEntityManager().createQuery("SELECT b.count FROM Book b WHERE b.id=1").getSingleResult();
+		library.giveBook(1L);
 		assertThat(library.getById(1L).getCount()).isEqualTo(count-1);
 	}
 	
@@ -91,22 +91,20 @@ class LibraryDaoImplTest {
 	@Test
 	void shouldIncreaseNumberOfBook() {
 		
-		long count = (Long)em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").getSingleResult();
-		library.giveBook(1L);
+		int count = (Integer)em.getEntityManager().createQuery("SELECT b.count FROM Book b WHERE b.id=1").getSingleResult();
+		library.returnBook(1L);
 		assertThat(library.getById(1L).getCount()).isEqualTo(count+1);
 	}
 
-	/*@DisplayName(" должен установить заданное количество книг по id")
+	@DisplayName(" должен установить заданное количество книг по id")
 	@Test
 	void shouldSetUpCertainNumberOfBook() {
 
 		library.setNumberOfBooks(1L, 100500);
-		long count = (Long)em.getEntityManager()
-				.createQuery("SELECT COUNT(b) FROM Book b WHERE b.id =:id")
-				.setParameter("id", 1L)
-				.getSingleResult();
+		int count = (Integer)em.getEntityManager().createQuery("SELECT b.count FROM Book b WHERE b.id=1").getSingleResult();
 		assertThat(count).isEqualTo(100500);
-	}*/
+	}
+	
 	@DisplayName(" должен добавить и прочитать комментарий к книге")
 	@Test
 	void shouldAddAComment() {
@@ -120,8 +118,10 @@ class LibraryDaoImplTest {
 		assertThat(library.getCommentsForBook(1L).size() == 2);
 		
 		List<Comment> l = library.getCommentsForBook(1L);
-		assertThat(l.get(0).getCommentText()).matches("Comment1");
-		assertThat(l.get(0).getReaderNickName()).matches("Reader");
-		assertThat(l.get(1).getCommentText()).matches("Comment2");
+		int numberOfComment1 =l.size()-2;
+		int numberOfComment2 =l.size()-1;
+		assertThat(l.get(numberOfComment1).getCommentText()).matches("Comment1");
+		assertThat(l.get(numberOfComment1).getReaderNickName()).matches("Reader");
+		assertThat(l.get(numberOfComment2).getCommentText()).matches("Comment2");
 	}
 }
