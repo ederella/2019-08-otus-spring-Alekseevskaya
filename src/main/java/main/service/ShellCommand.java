@@ -11,14 +11,15 @@ import main.domain.Author;
 import main.domain.Book;
 import main.domain.Comment;
 import main.domain.Genre;
+import repository.RepositoryLibrary;
 
 @ShellComponent
 public class ShellCommand {
 
-	private final LibraryDao library;
+	private final RepositoryLibrary library;
 
 	@Autowired
-	public ShellCommand(LibraryDao library) {
+	public ShellCommand(RepositoryLibrary library) {
 		this.library = library;
 	}
 
@@ -26,7 +27,7 @@ public class ShellCommand {
 	public String listBooks() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Library:\n");
-		List<Book> books = library.getAll();
+		List<Book> books = library.findAll();
 		List<Comment> comments = null;
 		int i = 1;
 		for (Book book : books) {
