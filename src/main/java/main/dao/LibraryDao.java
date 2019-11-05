@@ -15,7 +15,7 @@ public interface LibraryDao {
 
 	void addBook(Book book);
 
-	void deleteBookById(long id);
+	void deleteBookById(long id) throws Exception;
 
 	Book getById(long id);
 

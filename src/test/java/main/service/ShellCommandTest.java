@@ -7,12 +7,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.shell.Shell;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import main.dao.LibraryDao;
 import main.domain.Book;
 import main.domain.Comment;
+import main.repository.RepositoryLibrary;
 
 @DisplayName("Тест команд shell ")
 @SpringBootTest
@@ -23,11 +25,11 @@ class ShellCommandTest {
 	private Shell shell;
 
 	@MockBean
-	private LibraryDao library;
+	private RepositoryLibrary library;
 
 	@MockBean
 	private Book book;
-	
+
 	@MockBean
 	private Comment comment;
 
@@ -61,7 +63,7 @@ class ShellCommandTest {
 
 	@DisplayName(" должен вызывать deleteBookById для команды d")
 	@Test
-	void shouldCallDeleteBookOnD() {
+	void shouldCallDeleteBookOnD() throws Exception {
 		shell.evaluate(() -> DELETE_BOOK + " " + ID);
 		org.mockito.Mockito.verify(library, times(1)).deleteBookById(ID);
 	}
@@ -93,14 +95,14 @@ class ShellCommandTest {
 		shell.evaluate(() -> GET_BY_ID + " " + ID);
 		org.mockito.Mockito.verify(library, times(1)).getById(ID);
 	}
-	
+
 	@DisplayName(" должен вызывать listAuthors для команды lsa")
 	@Test
 	void shouldCallListAuthorsOnLsa() {
 		shell.evaluate(() -> LIST_AUTHORS);
 		org.mockito.Mockito.verify(library, times(1)).listAuthors();
 	}
-	
+
 	@DisplayName(" должен вызывать addAnonimousComment для команды cma")
 	@Test
 	void shouldCallAddAnonimousCommentOnCm() {
