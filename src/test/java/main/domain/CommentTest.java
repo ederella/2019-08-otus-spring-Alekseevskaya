@@ -18,7 +18,7 @@ public class CommentTest {
 	@Test
 	void shouldPrintComment()
 	{
-		c = new Comment(1L,"Name","Comment", 1L);
+		c = new Comment(1L,"Name","Comment", null);
 		assertThat(c.toString()).matches(".*Comment");
 	}
 }

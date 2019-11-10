@@ -5,7 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="COMMENTS") 
@@ -20,32 +25,34 @@ public class Comment {
 	@Column(name ="COMMENTTEXT")
 	private String commentText;
 	
-	@Column(name ="BOOKID")
-	private final long bookId;
+	@ManyToOne
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name ="BOOKID")
+	private final Book book;
 
-	public Comment(long id, String readerNickName, String commentText, long bookId) {
+	public Comment(long id, String readerNickName, String commentText, Book book) {
 		this.id = id;
 		this.setReaderNickName(readerNickName);
 		this.setCommentText(commentText);
-		this.bookId = bookId;
+		this.book = book;
 	}
-	public Comment(String readerNickName, String commentText, long bookId) {
+	public Comment(String readerNickName, String commentText, Book book) {
 		this.id = 0L;
 		this.setReaderNickName(readerNickName);
 		this.setCommentText(commentText);
-		this.bookId = bookId;
+		this.book = book;
 	}
 	
-	public Comment(String commentText, long bookId) {
+	public Comment(String commentText, Book book) {
 		this.id = 0L;
 		this.setCommentText(commentText);
-		this.bookId = bookId;
+		this.book = book;
 	}
 	
 	public Comment()
 	{
 		this.id = 0L;
-		this.bookId = 0L;
+		this.book = null;
 	}
 	public String getReaderNickName() {
 		return readerNickName;
@@ -63,8 +70,8 @@ public class Comment {
 		this.commentText = commentText;
 	}
 
-	public long getBookId() {
-		return this.bookId;
+	public Book getBook() {
+		return this.book;
 	}
 	
 	@Override

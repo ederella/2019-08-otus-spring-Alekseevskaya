@@ -1,6 +1,8 @@
 package main.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.Shell;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.assertj.core.api.Assertions.assertThat;
-import main.dao.LibraryDao;
+
 import main.domain.Book;
 import main.domain.Comment;
 
@@ -23,7 +24,7 @@ class ShellCommandTest {
 	private Shell shell;
 
 	@MockBean
-	private LibraryDao library;
+	private LibraryServices library;
 
 	@MockBean
 	private Book book;
@@ -48,7 +49,7 @@ class ShellCommandTest {
 	@Test
 	void shouldCallGetAllOnLs() {
 		shell.evaluate(() -> LIST_ALL);
-		org.mockito.Mockito.verify(library, times(1)).getAll();
+		org.mockito.Mockito.verify(library, times(1)).printAllBooksInfo();
 	}
 
 	@DisplayName(" должен вызывать count для команды c")
@@ -56,12 +57,12 @@ class ShellCommandTest {
 	void shouldCallCountOnC() {
 		Object res = shell.evaluate(() -> COUNT_ALL);
 		assertThat(res).isInstanceOf(String.class);
-		org.mockito.Mockito.verify(library, times(1)).count();
+		org.mockito.Mockito.verify(library, times(1)).getCountOfBookTypes();
 	}
 
 	@DisplayName(" должен вызывать deleteBookById для команды d")
 	@Test
-	void shouldCallDeleteBookOnD() {
+	void shouldCallDeleteBookOnD() throws Exception {
 		shell.evaluate(() -> DELETE_BOOK + " " + ID);
 		org.mockito.Mockito.verify(library, times(1)).deleteBookById(ID);
 	}
@@ -89,16 +90,16 @@ class ShellCommandTest {
 
 	@DisplayName(" должен вызывать getById для команды id")
 	@Test
-	void shouldCallGetByIdOnId() {
+	void shouldCallGetByIdOnId() throws Exception {
 		shell.evaluate(() -> GET_BY_ID + " " + ID);
-		org.mockito.Mockito.verify(library, times(1)).getById(ID);
+		org.mockito.Mockito.verify(library, times(1)).printBookById(ID);
 	}
 	
 	@DisplayName(" должен вызывать listAuthors для команды lsa")
 	@Test
 	void shouldCallListAuthorsOnLsa() {
 		shell.evaluate(() -> LIST_AUTHORS);
-		org.mockito.Mockito.verify(library, times(1)).listAuthors();
+		org.mockito.Mockito.verify(library, times(1)).printAllAuthors();
 	}
 	
 	@DisplayName(" должен вызывать addAnonimousComment для команды cma")

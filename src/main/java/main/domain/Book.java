@@ -1,40 +1,49 @@
 package main.domain;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name="BOOKS")
+@Table(name = "BOOKS")
 public class Book {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private final long id;
-	
+
 	@Column(name = "BOOKNAME")
 	private final String bookName;
-	
+
 	@Column(name = "NUMBERAVAILABLE")
 	private int count;
-	
+
 	@ManyToMany
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "BOOK_AUTHOR", joinColumns = @JoinColumn(name = "BOOKID"), inverseJoinColumns = @JoinColumn(name = "AUTHORID"))
 	private List<Author> authors;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "BOOK_GENRE", joinColumns = @JoinColumn(name = "BOOKID"), inverseJoinColumns = @JoinColumn(name = "GENREID"))
 	private List<Genre> genres;
 
-
-	public Book()
-	{
+	public Book() {
 		this.id = 0L;
 		this.bookName = "";
 	}
+
 	public Book(List<Author> authors, String bookName, List<Genre> genres) {
 		this.id = 0L;
 		this.authors = authors;
@@ -77,7 +86,7 @@ public class Book {
 		}
 		return names;
 	}
-	
+
 	public int getCount() {
 		return count;
 	}
@@ -87,11 +96,9 @@ public class Book {
 		StringBuilder sb = new StringBuilder();
 		sb.append("id - " + this.id + "\n");
 		if (authors != null) {
-			for (Iterator iterator = authors.iterator(); iterator.hasNext();) {
-				Author author = (Author) iterator.next();
+			for (Author author : authors) {
 				sb.append(author.toString());
-
-				if (!iterator.hasNext())
+				if (!authors.iterator().hasNext())
 					sb.append(": \n");
 				else
 					sb.append(", ");
@@ -102,11 +109,10 @@ public class Book {
 		if (genres != null) {
 			if (genres.size() > 0)
 				sb.append("(");
-			for (Iterator iterator = genres.iterator(); iterator.hasNext();) {
-				Genre genre = (Genre) iterator.next();
+			for (Genre genre : genres) {
 				sb.append(genre.getGenreName());
 
-				if (!iterator.hasNext())
+				if (!genres.iterator().hasNext())
 					sb.append(")\n");
 				else
 					sb.append(", ");
@@ -114,6 +120,7 @@ public class Book {
 			}
 		}
 		sb.append(this.count + " шт.\n");
+		
 		return sb.toString();
-	}
+	} 
 }

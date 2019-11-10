@@ -6,29 +6,17 @@ import main.domain.Author;
 import main.domain.Book;
 import main.domain.Comment;
 
-public interface LibraryDao {
+public interface LibraryDao {	
+
+	void add(Book book);
+	
+	List<Book> findAll();
+
+	Book findById(long id);
+
+	int deleteById(long id);
+
+	boolean updateBookCountById(long id, int count);
+	
 	long count();
-
-	List<Book> getAll();
-	
-	List<Author> listAuthors();
-
-	void addBook(Book book);
-
-	void deleteBookById(long id);
-
-	Book getById(long id);
-
-	boolean giveBook(long id);
-
-	boolean returnBook(long id);
-
-	boolean setNumberOfBooks(long id, int count);
-	
-	boolean addComment(Comment comment);
-	
-	boolean addAnonimousComment(String comment,long bookId);
-	
-	List<Comment> getCommentsForBook(long id);
-	
 }
