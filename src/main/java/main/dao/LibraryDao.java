@@ -2,23 +2,21 @@ package main.dao;
 
 import java.util.List;
 
+import main.domain.Author;
 import main.domain.Book;
+import main.domain.Comment;
 
-public interface LibraryDao 
-{    
-	int count();
+public interface LibraryDao {	
 
-    List<Book> getAll();
-    
-    void addBook(Book book); 
-    
-    void deleteBookById(long id);
-    
-    Book getById(long id);
-    
-    void giveBook(long id);
-    
-    void returnBook(long id);
+	void add(Book book);
+	
+	List<Book> findAll();
 
-	void setNumberOfBooks(long id, int count);
+	Book findById(long id);
+
+	int deleteById(long id);
+
+	boolean updateBookCountById(long id, int count);
+	
+	long count();
 }

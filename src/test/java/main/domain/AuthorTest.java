@@ -15,7 +15,7 @@ class AuthorTest {
 	@DisplayName(" должен заполнять поля данными и возвращать их")
 	@Test
 	void shouldFillFieldsAndReturnThem() {
-		author = new Author("A", "B","C");
+		author = new Author("A", "B", "C");
 		assertThat(author.getSurname().equalsIgnoreCase("A"));
 		assertThat(author.getFirstname().equalsIgnoreCase("B"));
 		assertThat(author.getSecondname().equalsIgnoreCase("C"));
@@ -24,8 +24,7 @@ class AuthorTest {
 	@DisplayName(" должен возвращать ФИО автора в строку")
 	@Test
 	void shouldPrintAuthorFullName() {
-		author = new Author("A", "B","C");
-		Object res = author.toString();
-		assertThat(res).isInstanceOf(String.class);
+		author = new Author("A", "B", "C");
+		assertThat(author.toString()).matches("A B C");
 	}
 }
