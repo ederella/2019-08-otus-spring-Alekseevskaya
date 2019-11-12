@@ -96,28 +96,34 @@ public class Book {
 		StringBuilder sb = new StringBuilder();
 		sb.append("id - " + this.id + "\n");
 		if (authors != null) {
+			int size = authors.size();
+			int i = 0;
 			for (Author author : authors) {
 				sb.append(author.toString());
-				if (!authors.iterator().hasNext())
-					sb.append(": \n");
-				else
+				i++;
+				if(i < size)
 					sb.append(", ");
+				else
+					sb.append(": \n");
+
 			}
+			
 		}
 		sb.append("   ~ " + this.bookName + " ~   \n");
 
 		if (genres != null) {
-			if (genres.size() > 0)
-				sb.append("(");
+			int size = genres.size();
+			sb.append("(");
 			for (Genre genre : genres) {
+				int i = 0;
 				sb.append(genre.getGenreName());
-
-				if (!genres.iterator().hasNext())
-					sb.append(")\n");
-				else
+				i++;
+				if(i < size)
 					sb.append(", ");
-
+				else
+					sb.append(")\n");
 			}
+			
 		}
 		sb.append(this.count + " шт.\n");
 		

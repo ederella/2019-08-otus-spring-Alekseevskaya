@@ -7,9 +7,11 @@ import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import main.dao.AuthorDao;
-import main.dao.CommentDao;
-import main.dao.LibraryDao;
+import main.dao.AuthorRepository;
+import main.dao.BookRepository;
+
+import main.dao.CommentRepository;
+import main.dao.GenreRepository;
 import main.domain.Author;
 import main.domain.Book;
 import main.domain.Comment;
@@ -18,28 +20,35 @@ import main.domain.Genre;
 @Service
 public class LibraryServices {
 
-	private final LibraryDao library;
-	private final AuthorDao authorsLib;
-	private final CommentDao commentsLib;
-
 	@Autowired
-	public LibraryServices(LibraryDao library, AuthorDao authorsLib, CommentDao commentsLib) {
-		this.library = library;
-		this.authorsLib = authorsLib;
-		this.commentsLib = commentsLib;
+	private final BookRepository bookRepository;
+	@Autowired
+	private final AuthorRepository authorRepository;
+	@Autowired
+	private final CommentRepository commentRepository;
+	@Autowired
+	private final GenreRepository genreRepository;
+
+	// @Autowired
+	public LibraryServices(BookRepository bookRepository, AuthorRepository authorRepository,
+			CommentRepository commentRepository, GenreRepository genreRepository) {
+		this.bookRepository = bookRepository;
+		this.authorRepository = authorRepository;
+		this.commentRepository = commentRepository;
+		this.genreRepository = genreRepository;
 	}
 
 	String printAllBooksInfo() {
 		StringBuilder sb = new StringBuilder();
-		List<Book> books = library.findAll();
+		List<Book> books = bookRepository.findAll();
 		List<Comment> comments = null;
 		int i = 1;
 		for (Book book : books) {
 			sb.append(i + ". ");
 			sb.append(book.toString());
-			comments = commentsLib.findByBook(book);
+			comments = commentRepository.findByBook(book);
 			for (Comment comment : comments) {
-				sb.append(">>" + comment.toString()+"\n");
+				sb.append(">>" + comment.toString() + "\n");
 			}
 			i++;
 		}
@@ -47,7 +56,7 @@ public class LibraryServices {
 	}
 
 	public long getCountOfBookTypes() {
-		return library.count();
+		return bookRepository.count();
 	}
 
 	public void addBookToLibrary() {
@@ -91,16 +100,54 @@ public class LibraryServices {
 			yesNo = sc.nextLine();
 		}
 		Book book = new Book(authors, bookName, genres);
-		library.add(book);
+		addBookAuthors(authors);
+		addBookGenres(genres);
+		bookRepository.save(book);
+	}
+
+	private void addBookAuthors(List<Author> authors) {
+		Author author = null;
+		Author authorFromDB = null;
+
+		if (authors != null) {
+			int size = authors.size();
+
+			for (int i = 0; i < size; i++) {
+				author = authors.get(i);
+				authorFromDB = authorRepository.findBySurnameAndFirstnameAndSecondname(author.getSurname(),
+						author.getFirstname(), author.getSecondname());
+				if (authorFromDB != null)
+					authors.set(i, authorFromDB);
+				else
+					authorRepository.save(author);
+			}
+		}
+	}
+
+	private void addBookGenres(List<Genre> genres) {
+		Genre genre = null;
+		Genre genreFromDB = null;
+
+		if (genres != null) {
+			int size = genres.size();
+
+			for (int i = 0; i < size; i++) {
+				genre = genres.get(i);
+				genreFromDB = genreRepository.findByGenreName(genre.getGenreName());
+				if (genreFromDB != null)
+					genres.set(i, genreFromDB);
+				else
+					genreRepository.save(genre);
+			}
+		}
 	}
 
 	public void deleteBookById(long id) throws Exception {
-		if (library.deleteById(id) == 0)
-			throw new Exception("Book is not found");
+		bookRepository.deleteById(id);
 	}
 
 	public boolean giveBook(long id) {
-		Book b = library.findById(id);
+		Book b = bookRepository.findById(id);
 		if (b != null) {
 			return setNumberOfBooks(id, b.getCount() - 1);
 		}
@@ -108,7 +155,7 @@ public class LibraryServices {
 	}
 
 	public boolean returnBook(long id) {
-		Book b = library.findById(id);
+		Book b = bookRepository.findById(id);
 		if (b != null) {
 			return setNumberOfBooks(id, b.getCount() + 1);
 		}
@@ -116,15 +163,15 @@ public class LibraryServices {
 	}
 
 	public boolean setNumberOfBooks(long id, int count) {
-		if (count > 0)
-			return library.updateBookCountById(id, count);
+		if (count >= 0)
+			return bookRepository.updateBookCountById(id, count) > 0;
 		else
 			return false;
 	}
 
 	public String printBookById(long id) throws Exception {
-		Book b = library.findById(id);
-		if(b!=null)
+		Book b = bookRepository.findById(id);
+		if (b != null)
 			return b.toString();
 		else
 			throw new Exception("Book is not found");
@@ -132,7 +179,7 @@ public class LibraryServices {
 
 	public String printAllAuthors() {
 		StringBuilder sb = new StringBuilder();
-		List<Author> authors = authorsLib.findAll();
+		List<Author> authors = authorRepository.findAll();
 		int i = 1;
 		for (Author author : authors) {
 			sb.append(i + ". ");
@@ -144,7 +191,7 @@ public class LibraryServices {
 	}
 
 	public boolean addComment(long id) {
-		Book b = library.findById(id);
+		Book b = bookRepository.findById(id);
 		if (b != null) {
 			Scanner sc = new Scanner(System.in);
 
@@ -155,7 +202,7 @@ public class LibraryServices {
 			String commentText = sc.nextLine().trim();
 
 			Comment c = new Comment(nickName, commentText, b);
-			commentsLib.add(c);
+			commentRepository.save(c);
 			return true;
 		}
 		return false;
@@ -163,19 +210,19 @@ public class LibraryServices {
 	}
 
 	public boolean addAnonimousComment(String text, long id) {
-		Book b = library.findById(id);
+		Book b = bookRepository.findById(id);
 		if (b != null) {
 			Comment c = new Comment(text, b);
-			commentsLib.add(c);		
+			commentRepository.save(c);
 			return true;
 		}
 		return false;
 	}
 
 	public String printAllCommentsByBookId(long id) throws Exception {
-		Book b = library.findById(id);
+		Book b = bookRepository.findById(id);
 		if (b != null) {
-			List<Comment> comments = commentsLib.findByBook(b);
+			List<Comment> comments = commentRepository.findByBook(b);
 			StringBuilder sb = new StringBuilder();
 			int i = 1;
 			for (Comment comment : comments) {
@@ -184,8 +231,7 @@ public class LibraryServices {
 				i++;
 			}
 			return sb.toString();
-		}
-		else
+		} else
 			throw new Exception("Book is not found");
 	}
 }
