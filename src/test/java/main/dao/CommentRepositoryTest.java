@@ -29,17 +29,6 @@ public class CommentRepositoryTest {
 	@Autowired
 	TestEntityManager em;
 
-	/*
-	 * @DisplayName(" должен удалить комментарий к книге")
-	 * 
-	 * @Test void shouldDeleteAComment() {
-	 * 
-	 * long idMax = (Long)
-	 * em.getEntityManager().createQuery("SELECT MAX(c.id) FROM Comment c").
-	 * getSingleResult(); db.deleteById(idMax); long idNewMax = (Long)
-	 * em.getEntityManager().createQuery("SELECT MAX(c.id) FROM Comment c").
-	 * getSingleResult(); assertThat(idMax - idNewMax == 1); }
-	 */
 	@DisplayName(" должен вернуть список комментариев по книге")
 	@SuppressWarnings("unchecked")
 	@Test

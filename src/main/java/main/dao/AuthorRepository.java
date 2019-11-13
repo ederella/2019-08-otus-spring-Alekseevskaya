@@ -11,8 +11,6 @@ public interface AuthorRepository extends CrudRepository<Author, Long>{
 	List<Author> findAll();
 
 	Author findById(long id);
-
-	//int deleteById(long id);
 	
 	Author findBySurnameAndFirstnameAndSecondname(String surname, String firstname, String secondname);
 }

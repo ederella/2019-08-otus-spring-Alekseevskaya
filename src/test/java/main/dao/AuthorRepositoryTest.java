@@ -56,16 +56,4 @@ public class AuthorRepositoryTest {
 		assertThat(author1).isEqualToComparingFieldByField(author);
 	}
 
-	/*
-	 * @DisplayName(" должен удалить автора по id")
-	 * 
-	 * @Test void shouldDeleteAnAuthorByID() { author = new Author("IVANOV", "IVAN",
-	 * ""); em.persist(author); long count1 = (Long)
-	 * em.getEntityManager().createQuery("SELECT COUNT(a) FROM Author a").
-	 * getSingleResult(); db.deleteById(count1); long count2 = (Long)
-	 * em.getEntityManager().createQuery("SELECT COUNT(a) FROM Author a").
-	 * getSingleResult(); assertThat(count1 - count2 == 1L); List<Author> list =
-	 * (List<Author>) em.getEntityManager().createQuery("SELECT a FROM Author a",
-	 * Author.class).getResultList(); assertThat(list).doesNotContain(author); }
-	 */
 }

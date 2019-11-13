@@ -29,7 +29,6 @@ class BookRepositoryTest {
 	private TestEntityManager em;
 
 	@DisplayName(" должен возвращать список книг")
-
 	@Test
 	void shouldReturnAListOfBooks() {
 		assertThat(library.findAll()).isNotEmpty();
@@ -37,25 +36,13 @@ class BookRepositoryTest {
 	}
 
 	@DisplayName(" должен возвращать количество книг в библиотеке")
-
 	@Test
 	void shouldReturnCount() {
 		long count = (Long) em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").getSingleResult();
 		assertThat(library.count()).isEqualTo(count);
 	}
 
-	/*
-	 * @DisplayName(" должен удалить одну книгу")
-	 * 
-	 * @Test void shouldDeleteOneBook() { long count1 = (Long)
-	 * em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").
-	 * getSingleResult(); library.deleteById(0); long count2 = (Long)
-	 * em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").
-	 * getSingleResult(); assertThat(count2 - count1 == 1L); }
-	 */
-
 	@DisplayName(" должен вернуть книгу по id")
-
 	@Test
 	void shouldReturnBookById() {
 		Book b = new Book(null, "Book Name", null);
@@ -69,7 +56,6 @@ class BookRepositoryTest {
 	}
 
 	@DisplayName(" должен установить заданное количество книг по id")
-
 	@Test
 	void shouldSetUpCertainNumberOfBook() {
 

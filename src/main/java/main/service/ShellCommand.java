@@ -4,30 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import main.domain.Book;
+
 @ShellComponent
 public class ShellCommand {
 
-	private final LibraryServices libraryServices;
+	private final AuthorServices authorServices;
+	private final BookServices bookServices;
+	private final CommentServices commentServices;
 
 	@Autowired
-	public ShellCommand(LibraryServices libraryServices) {
-		this.libraryServices = libraryServices;
+	public ShellCommand(AuthorServices authorServices, BookServices bookServices, CommentServices commentServices) {
+		this.authorServices = authorServices;
+		this.bookServices = bookServices;
+		this.commentServices = commentServices;
 	}
 
 	@ShellMethod(value = "List all books", key = "ls")
 	public String listBooks() {
-		return "Library:\n" + libraryServices.printAllBooksInfo();
+		return "Library:\n" + bookServices.printAllBooksInfo();
 	}
 
 	@ShellMethod(value = "Count books types", key = "c")
 	public String countBookTypes() {
-		return "Count books types: " + libraryServices.getCountOfBookTypes();
+		return "Count books types: " + bookServices.getCountOfBookTypes();
 	}
 
 	@ShellMethod(value = "Add book to library", key = "a")
 	public String addBookToLibrary() throws Exception {
 		try {
-			libraryServices.addBookToLibrary();
+			bookServices.addBookToLibrary();
 
 			return "New book has been successfully added";
 		} catch (Exception e) {
@@ -38,7 +44,7 @@ public class ShellCommand {
 	@ShellMethod(value = "Delete book from the library", key = "d")
 	String deleteBookById(long id) {
 		try {
-			libraryServices.deleteBookById(id);
+			bookServices.deleteBookById(id);
 
 			return "Book has been deleted";
 		} catch (Exception e) {
@@ -50,7 +56,7 @@ public class ShellCommand {
 	String giveBook(long id) {
 		try {
 
-			if (libraryServices.giveBook(id))
+			if (bookServices.giveBook(id))
 				return "Book has been given to reader";
 			else
 				throw new Exception();
@@ -62,7 +68,7 @@ public class ShellCommand {
 	@ShellMethod(value = "Return the book to the library", key = "r")
 	String returnBook(long id) {
 		try {
-			if (libraryServices.returnBook(id))
+			if (bookServices.returnBook(id))
 				return "Book has been returned";
 			else
 				throw new Exception();
@@ -74,7 +80,7 @@ public class ShellCommand {
 	@ShellMethod(value = "Set number of book of a certain book type", key = "n")
 	String setNumberOfBooks(long id, int count) {
 		try {
-			if (libraryServices.setNumberOfBooks(id, count))
+			if (bookServices.setNumberOfBooks(id, count))
 				return "Book number has been loaded";
 			else
 				throw new Exception();
@@ -86,7 +92,7 @@ public class ShellCommand {
 	@ShellMethod(value = "Get the book info by Id", key = "id")
 	String getBookById(long id) {
 		try {
-			return libraryServices.printBookById(id);
+			return bookServices.printBookById(id);
 		} catch (Exception e) {
 			return "Book is not found";
 		}
@@ -94,16 +100,18 @@ public class ShellCommand {
 
 	@ShellMethod(value = "List all authors", key = "lsa")
 	public String listAuthors() {
-		return "Authors:\n" + libraryServices.printAllAuthors();
+		return "Authors:\n" + authorServices.printAllAuthors();
 	}
 
 	@ShellMethod(value = "Add a comment", key = "cm")
 	public String addComment(long id) {
 
 		try {
-			if (libraryServices.addComment(id))
+			Book b = bookServices.findById(id);
+			if (b != null) {
+				commentServices.addComment(b);
 				return "Your comment has been added";
-			else
+			} else
 				throw new Exception("Book is not found");
 
 		} catch (Exception e) {
@@ -114,10 +122,11 @@ public class ShellCommand {
 	@ShellMethod(value = "Add anonimous comment", key = "cma")
 	public String addAnonimousComment(long id, String text) {
 		try {
-
-			if (libraryServices.addAnonimousComment(text, id))
+			Book b = bookServices.findById(id);
+			if (bookServices.findById(id) != null) {
+				commentServices.addAnonimousComment(text, b);
 				return "Your comment has been added";
-			else
+			} else
 				throw new Exception("Book is not found");
 
 		} catch (Exception e) {
@@ -128,7 +137,11 @@ public class ShellCommand {
 	@ShellMethod(value = "Read comments on book", key = "cmb")
 	public String readCommentsOnBook(long id) {
 		try {
-			return libraryServices.printAllCommentsByBookId(id);
+			Book b = bookServices.findById(id);
+			if(b!=null)
+				return commentServices.printAllCommentsByBook(b);
+			else
+				return "Book is not found";
 		} catch (Exception e) {
 			return "Book is not found";
 		}

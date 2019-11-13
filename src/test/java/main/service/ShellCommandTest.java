@@ -24,11 +24,13 @@ class ShellCommandTest {
 	private Shell shell;
 
 	@MockBean
-	private LibraryServices library;
-
+	private AuthorServices authorServices;
 	@MockBean
-	private Book book;
-	
+	private BookServices bookServices;
+	@MockBean
+	private CommentServices commentServices;
+	@MockBean
+	private Book book;	
 	@MockBean
 	private Comment comment;
 
@@ -49,7 +51,7 @@ class ShellCommandTest {
 	@Test
 	void shouldCallGetAllOnLs() {
 		shell.evaluate(() -> LIST_ALL);
-		org.mockito.Mockito.verify(library, times(1)).printAllBooksInfo();
+		org.mockito.Mockito.verify(bookServices, times(1)).printAllBooksInfo();
 	}
 
 	@DisplayName(" должен вызывать count для команды c")
@@ -57,55 +59,48 @@ class ShellCommandTest {
 	void shouldCallCountOnC() {
 		Object res = shell.evaluate(() -> COUNT_ALL);
 		assertThat(res).isInstanceOf(String.class);
-		org.mockito.Mockito.verify(library, times(1)).getCountOfBookTypes();
+		org.mockito.Mockito.verify(bookServices, times(1)).getCountOfBookTypes();
 	}
 
 	@DisplayName(" должен вызывать deleteBookById для команды d")
 	@Test
 	void shouldCallDeleteBookOnD() throws Exception {
 		shell.evaluate(() -> DELETE_BOOK + " " + ID);
-		org.mockito.Mockito.verify(library, times(1)).deleteBookById(ID);
+		org.mockito.Mockito.verify(bookServices, times(1)).deleteBookById(ID);
 	}
 
 	@DisplayName(" должен вызывать giveBook для команды g")
 	@Test
 	void shouldCallGiveBookOnG() {
 		shell.evaluate(() -> GIVE_BOOK + " " + ID);
-		org.mockito.Mockito.verify(library, times(1)).giveBook(ID);
+		org.mockito.Mockito.verify(bookServices, times(1)).giveBook(ID);
 	}
 
 	@DisplayName(" должен вызывать returnBook для команды r")
 	@Test
 	void shouldCallReturnBookOnR() {
 		shell.evaluate(() -> RETURN_BOOK + " " + ID);
-		org.mockito.Mockito.verify(library, times(1)).returnBook(ID);
+		org.mockito.Mockito.verify(bookServices, times(1)).returnBook(ID);
 	}
 
 	@DisplayName(" должен вызывать setNumberOfBooks для команды n")
 	@Test
 	void shouldCallSetNumberOfBooksOnN() {
 		shell.evaluate(() -> SET_COUNT + " " + ID + " " + COUNT);
-		org.mockito.Mockito.verify(library, times(1)).setNumberOfBooks(ID, COUNT);
+		org.mockito.Mockito.verify(bookServices, times(1)).setNumberOfBooks(ID, COUNT);
 	}
 
 	@DisplayName(" должен вызывать getById для команды id")
 	@Test
 	void shouldCallGetByIdOnId() throws Exception {
 		shell.evaluate(() -> GET_BY_ID + " " + ID);
-		org.mockito.Mockito.verify(library, times(1)).printBookById(ID);
+		org.mockito.Mockito.verify(bookServices, times(1)).printBookById(ID);
 	}
 	
 	@DisplayName(" должен вызывать listAuthors для команды lsa")
 	@Test
 	void shouldCallListAuthorsOnLsa() {
 		shell.evaluate(() -> LIST_AUTHORS);
-		org.mockito.Mockito.verify(library, times(1)).printAllAuthors();
-	}
-	
-	@DisplayName(" должен вызывать addAnonimousComment для команды cma")
-	@Test
-	void shouldCallAddAnonimousCommentOnCm() {
-		shell.evaluate(() -> ADD_ANON_COMMENT + " " + ID + " " + COMMENT);
-		org.mockito.Mockito.verify(library, times(1)).addAnonimousComment(COMMENT, ID);
+		org.mockito.Mockito.verify(authorServices, times(1)).printAllAuthors();
 	}
 }

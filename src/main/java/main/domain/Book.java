@@ -95,22 +95,15 @@ public class Book {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("id - " + this.id + "\n");
-		if (authors != null) {
-			int size = authors.size();
-			int i = 0;
-			for (Author author : authors) {
-				sb.append(author.toString());
-				i++;
-				if(i < size)
-					sb.append(", ");
-				else
-					sb.append(": \n");
-
-			}
-			
-		}
+		sb.append(getAuthorsString());
 		sb.append("   ~ " + this.bookName + " ~   \n");
-
+		sb.append(getGenresString());		
+		sb.append(this.count + " шт.\n");		
+		return sb.toString();
+	} 
+	
+	private String getGenresString() {
+		StringBuilder sb = new StringBuilder();
 		if (genres != null) {
 			int size = genres.size();
 			sb.append("(");
@@ -118,15 +111,29 @@ public class Book {
 				int i = 0;
 				sb.append(genre.getGenreName());
 				i++;
-				if(i < size)
+				if (i < size)
 					sb.append(", ");
 				else
 					sb.append(")\n");
 			}
-			
 		}
-		sb.append(this.count + " шт.\n");
-		
 		return sb.toString();
-	} 
+	}
+
+	private String getAuthorsString() {
+		StringBuilder sb = new StringBuilder();
+		if (authors != null) {
+			int size = authors.size();
+			int i = 0;
+			for (Author author : authors) {
+				sb.append(author.toString());
+				i++;
+				if (i < size)
+					sb.append(", ");
+				else
+					sb.append(": \n");
+			}
+		}
+		return sb.toString();
+	}
 }

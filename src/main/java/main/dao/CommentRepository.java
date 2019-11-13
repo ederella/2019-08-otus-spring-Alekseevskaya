@@ -11,5 +11,4 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 	List<Comment> findByBook(Book book);
 
-	//int deleteById(long id);
 }
