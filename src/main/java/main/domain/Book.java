@@ -81,9 +81,9 @@ public class Book {
 
 	public List<String> getGenreNames() {
 		List<String> names = new ArrayList<String>();
-		for (Genre genre : genres) {
+		genres.forEach((genre) -> {
 			names.add(genre.getGenreName());
-		}
+		});
 		return names;
 	}
 
@@ -97,25 +97,22 @@ public class Book {
 		sb.append("id - " + this.id + "\n");
 		sb.append(getAuthorsString());
 		sb.append("   ~ " + this.bookName + " ~   \n");
-		sb.append(getGenresString());		
-		sb.append(this.count + " шт.\n");		
+		sb.append(getGenresString());
+		sb.append(this.count + " шт.\n");
 		return sb.toString();
-	} 
-	
+	}
+
 	private String getGenresString() {
 		StringBuilder sb = new StringBuilder();
 		if (genres != null) {
-			int size = genres.size();
 			sb.append("(");
-			for (Genre genre : genres) {
-				int i = 0;
+			genres.forEach((genre) -> {
 				sb.append(genre.getGenreName());
-				i++;
-				if (i < size)
+				if (genres.indexOf(genre) < genres.size() - 1)
 					sb.append(", ");
-				else
-					sb.append(")\n");
-			}
+			});
+
+			sb.append(")\n");
 		}
 		return sb.toString();
 	}
@@ -123,16 +120,12 @@ public class Book {
 	private String getAuthorsString() {
 		StringBuilder sb = new StringBuilder();
 		if (authors != null) {
-			int size = authors.size();
-			int i = 0;
-			for (Author author : authors) {
+			authors.forEach((author) -> {
 				sb.append(author.toString());
-				i++;
-				if (i < size)
+				if (authors.indexOf(author) < authors.size() - 1)
 					sb.append(", ");
-				else
-					sb.append(": \n");
-			}
+			});
+			sb.append(": \n");
 		}
 		return sb.toString();
 	}

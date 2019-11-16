@@ -20,36 +20,32 @@ public class BookServices {
 	private final AuthorServices authorServices;
 	private final CommentServices commentServices;
 	private final GenreServices genreServices;
-	
-	@Autowired	
-	public BookServices(BookRepository bookRepository, AuthorServices authorServices, CommentServices commentServices, GenreServices genreServices) {
+
+	@Autowired
+	public BookServices(BookRepository bookRepository, AuthorServices authorServices, CommentServices commentServices,
+			GenreServices genreServices) {
 		this.bookRepository = bookRepository;
 		this.authorServices = authorServices;
 		this.commentServices = commentServices;
 		this.genreServices = genreServices;
 	}
-	
+
 	String printAllBooksInfo() {
 		StringBuilder sb = new StringBuilder();
 		List<Book> books = bookRepository.findAll();
-		List<Comment> comments = null;
-		int i = 1;
-		for (Book book : books) {
-			sb.append(i + ". ");
-			sb.append(book.toString());
-			comments = commentServices.getRepository().findByBook(book);
-			for (Comment comment : comments) {
+		books.stream().forEach((book) -> {
+			sb.append(books.indexOf(book) + 1 + ". " + book.toString());
+			commentServices.getRepository().findByBook(book).forEach((comment) -> {
 				sb.append(">>" + comment.toString() + "\n");
-			}
-			i++;
-		}
+			});
+		});
 		return sb.toString();
 	}
-	
+
 	public long getCountOfBookTypes() {
 		return bookRepository.count();
 	}
-	
+
 	public void deleteBookById(long id) throws Exception {
 		bookRepository.deleteById(id);
 	}
@@ -84,11 +80,11 @@ public class BookServices {
 		else
 			throw new Exception("Book is not found");
 	}
-	
-	public Book findById(long id){
+
+	public Book findById(long id) {
 		return bookRepository.findById(id);
-		}
-	
+	}
+
 	public void addBookToLibrary() {
 		Scanner sc = new Scanner(System.in);
 		List<Author> authors = new ArrayList<Author>();
