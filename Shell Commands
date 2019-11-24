@@ -1,0 +1,12 @@
+a: Add book to library
+c: Count books types
+cm: Add a comment
+cma: Add anonimous comment
+cmb: Read comments on book
+d: Delete book from the library
+        g: Give the book from the library
+id: Get the book info by Id
+ls: List all books
+lsa: List all authors
+        n: Set number of book of a certain book type
+        r: Return the book to the library

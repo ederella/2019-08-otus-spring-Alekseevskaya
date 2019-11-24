@@ -1,0 +1,5 @@
+spring:
+   data:
+      mongodb: 
+         database: library_db_tst          
+   shell.interactive.enabled: false
