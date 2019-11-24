@@ -28,12 +28,12 @@ class BookTest {
 		a.add(author);
 		List<Genre> s = new ArrayList<Genre>();
 		s.add(genre);
-		book = new Book(1, a, "name", s, 10);
+		book = new Book("1", a, "name", s, 10);
 
 		assertThat(book.getAuthors() == a);
 		assertThat(book.getGenres() == s);
 		assertThat(book.getBookName().equalsIgnoreCase("name"));
-		assertThat(book.getId() == 1);
+		assertThat(book.getId().equalsIgnoreCase("1"));
 		assertThat(book.getCount() == 10);
 	}
 

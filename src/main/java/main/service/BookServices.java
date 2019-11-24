@@ -20,41 +20,44 @@ public class BookServices {
 	private final AuthorServices authorServices;
 	private final CommentServices commentServices;
 	private final GenreServices genreServices;
-	
-	@Autowired	
-	public BookServices(BookRepository bookRepository, AuthorServices authorServices, CommentServices commentServices, GenreServices genreServices) {
+
+	@Autowired
+	public BookServices(BookRepository bookRepository, AuthorServices authorServices, CommentServices commentServices,
+			GenreServices genreServices) {
 		this.bookRepository = bookRepository;
 		this.authorServices = authorServices;
 		this.commentServices = commentServices;
 		this.genreServices = genreServices;
 	}
 	
+	public BookServices() {
+		this.bookRepository = null;
+		this.authorServices = null;
+		this.commentServices = null;
+		this.genreServices = null;
+	}
+
 	String printAllBooksInfo() {
 		StringBuilder sb = new StringBuilder();
 		List<Book> books = bookRepository.findAll();
-		List<Comment> comments = null;
-		int i = 1;
-		for (Book book : books) {
-			sb.append(i + ". ");
-			sb.append(book.toString());
-			comments = commentServices.getRepository().findByBook(book);
-			for (Comment comment : comments) {
+		books.stream().forEach((book) -> {
+			sb.append(books.indexOf(book) + 1 + ". " + book.toString());
+			commentServices.getRepository().findByBook(book).forEach((comment) -> {
 				sb.append(">>" + comment.toString() + "\n");
-			}
-			i++;
-		}
+			});
+		});
 		return sb.toString();
 	}
-	
+
 	public long getCountOfBookTypes() {
 		return bookRepository.count();
 	}
-	
-	public void deleteBookById(long id) throws Exception {
+
+	public void deleteBookById(String id) throws Exception {
 		bookRepository.deleteById(id);
 	}
 
-	public boolean giveBook(long id) {
+	public boolean giveBook(String id) {
 		Book b = findById(id);
 		if (b != null) {
 			return setNumberOfBooks(id, b.getCount() - 1);
@@ -62,7 +65,7 @@ public class BookServices {
 		return false;
 	}
 
-	public boolean returnBook(long id) {
+	public boolean returnBook(String id) {
 		Book b = findById(id);
 		if (b != null) {
 			return setNumberOfBooks(id, b.getCount() + 1);
@@ -70,25 +73,25 @@ public class BookServices {
 		return false;
 	}
 
-	public boolean setNumberOfBooks(long id, int count) {
+	public boolean setNumberOfBooks(String id, int count) {
 		if (count >= 0)
 			return bookRepository.updateBookCountById(id, count) > 0;
 		else
 			return false;
 	}
 
-	public String printBookById(long id) throws Exception {
+	public String printBookById(String id) throws Exception {
 		Book b = findById(id);
 		if (b != null)
 			return b.toString();
 		else
 			throw new Exception("Book is not found");
 	}
-	
-	public Book findById(long id){
-		return bookRepository.findById(id);
-		}
-	
+
+	public Book findById(String id) {
+		return bookRepository.findById(id).get();
+	}
+
 	public void addBookToLibrary() {
 		Scanner sc = new Scanner(System.in);
 		List<Author> authors = new ArrayList<Author>();

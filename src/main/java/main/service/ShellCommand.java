@@ -42,7 +42,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Delete book from the library", key = "d")
-	String deleteBookById(long id) {
+	String deleteBookById(String id) {
 		try {
 			bookServices.deleteBookById(id);
 
@@ -53,7 +53,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Give the book from the library", key = "g")
-	String giveBook(long id) {
+	String giveBook(String id) {
 		try {
 
 			if (bookServices.giveBook(id))
@@ -66,7 +66,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Return the book to the library", key = "r")
-	String returnBook(long id) {
+	String returnBook(String id) {
 		try {
 			if (bookServices.returnBook(id))
 				return "Book has been returned";
@@ -78,7 +78,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Set number of book of a certain book type", key = "n")
-	String setNumberOfBooks(long id, int count) {
+	String setNumberOfBooks(String id, int count) {
 		try {
 			if (bookServices.setNumberOfBooks(id, count))
 				return "Book number has been loaded";
@@ -90,7 +90,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Get the book info by Id", key = "id")
-	String getBookById(long id) {
+	String getBookById(String id) {
 		try {
 			return bookServices.printBookById(id);
 		} catch (Exception e) {
@@ -104,7 +104,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Add a comment", key = "cm")
-	public String addComment(long id) {
+	public String addComment(String id) {
 
 		try {
 			Book b = bookServices.findById(id);
@@ -120,7 +120,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Add anonimous comment", key = "cma")
-	public String addAnonimousComment(long id, String text) {
+	public String addAnonimousComment(String id, String text) {
 		try {
 			Book b = bookServices.findById(id);
 			if (bookServices.findById(id) != null) {
@@ -135,7 +135,7 @@ public class ShellCommand {
 	}
 
 	@ShellMethod(value = "Read comments on book", key = "cmb")
-	public String readCommentsOnBook(long id) {
+	public String readCommentsOnBook(String id) {
 		try {
 			Book b = bookServices.findById(id);
 			if(b!=null)

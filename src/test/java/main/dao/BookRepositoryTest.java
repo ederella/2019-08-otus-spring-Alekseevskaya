@@ -3,10 +3,13 @@ package main.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,16 +20,12 @@ import main.domain.Book;
 
 @DisplayName("Тест BookRepository")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@DataJpaTest
+@DataMongoTest
 @ComponentScan(basePackages = { "main.dao" })
 class BookRepositoryTest {
 
 	@Autowired
 	private BookRepository library;
-
-	@Autowired
-	private TestEntityManager em;
 
 	@DisplayName(" должен возвращать список книг")
 	@Test
@@ -38,29 +37,25 @@ class BookRepositoryTest {
 	@DisplayName(" должен возвращать количество книг в библиотеке")
 	@Test
 	void shouldReturnCount() {
-		long count = (Long) em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").getSingleResult();
-		assertThat(library.count()).isEqualTo(count);
+		assertThat(library.count()).isEqualTo(1);
 	}
 
 	@DisplayName(" должен вернуть книгу по id")
 	@Test
 	void shouldReturnBookById() {
-		Book b = new Book(null, "Book Name", null);
-		em.persist(b);
-		long count = (Long) em.getEntityManager().createQuery("SELECT COUNT(b) FROM Book b").getSingleResult();
-
-		Book b1 = library.findById(count);
+		Book b = library.findAll().get(0);
+		String id = b.getId();
+		Book b1 = library.findById(id).get();
 		assertNotNull(b1);
-		assertThat(b1.getBookName()).isEqualToIgnoringCase("Book Name");
-
+		assertThat(b1.getBookName().matches(b.getBookName()));
 	}
 
 	@DisplayName(" должен установить заданное количество книг по id")
 	@Test
 	void shouldSetUpCertainNumberOfBook() {
-
-		library.updateBookCountById(1L, 100500);
-		int count = (Integer) em.getEntityManager().createQuery("SELECT b.count FROM Book b WHERE b.id =1L").getSingleResult();
+		String id = library.findAll().get(0).getId();
+		library.updateBookCountById(id, 100500);
+		int count = library.findById(id).get().getCount();
 		assertThat(count).isEqualTo(100500);
 	}
 

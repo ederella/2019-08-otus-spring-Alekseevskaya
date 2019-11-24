@@ -2,12 +2,15 @@ package main.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,25 +22,21 @@ import main.domain.Comment;
 
 @DisplayName("Тест CommentRepository")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@DataJpaTest
+@DataMongoTest
 @ComponentScan(basePackages = { "main.dao" })
 public class CommentRepositoryTest {
 
 	@Autowired
-	CommentRepository db;
+	CommentRepository commentRepository;
+	
 	@Autowired
-	TestEntityManager em;
+	BookRepository bookRepository;
 
 	@DisplayName(" должен вернуть список комментариев по книге")
-	@SuppressWarnings("unchecked")
 	@Test
 	void shouldReturnAListOfComments() {
-		Book b = em.find(Book.class, 1L);
-
-		List<Comment> comments = (List<Comment>) em.getEntityManager()
-				.createQuery("SELECT c FROM Comment c WHERE c.book = :book").setParameter("book", b).getResultList();
-		List<Comment> commentsB = db.findByBook(b);
-		assertThat(comments).containsAll(commentsB);
+		Book b = bookRepository.findAll().get(0);
+		Comment comment = commentRepository.findByBook(b).get(0);
+		assertThat(comment.getCommentText().matches("TestComment") && comment.getReaderNickName().matches("TestReaderName"));
 	}
 }

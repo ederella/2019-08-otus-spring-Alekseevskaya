@@ -42,9 +42,7 @@ class ShellCommandTest {
 	private static final String SET_COUNT = "n";
 	private static final String GET_BY_ID = "id";
 	private static final String LIST_AUTHORS = "lsa";
-	private static final String ADD_ANON_COMMENT = "cma";
-	private static final long ID = 1;
-	private static final String COMMENT = "Comment";
+	private static final String ID = "1";
 	private static final int COUNT = 1000;
 
 	@DisplayName(" должен вызывать getAll для команды ls")

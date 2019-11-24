@@ -9,20 +9,21 @@ import org.springframework.stereotype.Service;
 import main.dao.CommentRepository;
 import main.domain.Book;
 import main.domain.Comment;
+
 @Service
 public class CommentServices {
 
 	private final CommentRepository commentRepository;
-	
+
 	@Autowired
-	public CommentServices(CommentRepository commentRepository)
-	{
+	public CommentServices(CommentRepository commentRepository) {
 		this.commentRepository = commentRepository;
 	}
-	
+
 	public CommentRepository getRepository() {
 		return commentRepository;
 	}
+
 	public boolean addAnonimousComment(String text, Book b) {
 		if (b != null) {
 			Comment c = new Comment(text, b);
@@ -31,22 +32,19 @@ public class CommentServices {
 		}
 		return false;
 	}
-	
+
 	public String printAllCommentsByBook(Book b) throws Exception {
 		if (b != null) {
 			List<Comment> comments = commentRepository.findByBook(b);
 			StringBuilder sb = new StringBuilder();
-			int i = 1;
-			for (Comment comment : comments) {
-				sb.append(i + ". ");
-				sb.append(">> " + comment.toString() + "\n");
-				i++;
-			}
+			comments.forEach((comment) -> {
+				sb.append(comments.indexOf(comment) + 1 + ". " + comment.toString() + "\n");
+			});
 			return sb.toString();
 		} else
 			throw new Exception("Book is not found");
 	}
-	
+
 	public boolean addComment(Book b) {
 		if (b != null) {
 			Scanner sc = new Scanner(System.in);
