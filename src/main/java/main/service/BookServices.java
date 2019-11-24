@@ -30,13 +30,6 @@ public class BookServices {
 		this.genreServices = genreServices;
 	}
 	
-	public BookServices() {
-		this.bookRepository = null;
-		this.authorServices = null;
-		this.commentServices = null;
-		this.genreServices = null;
-	}
-
 	String printAllBooksInfo() {
 		StringBuilder sb = new StringBuilder();
 		List<Book> books = bookRepository.findAll();
