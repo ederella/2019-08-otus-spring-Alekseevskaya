@@ -94,11 +94,9 @@ public class Book {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("id - " + this.id + "\n");
 		sb.append(getAuthorsString());
-		sb.append("   ~ " + this.bookName + " ~   \n");
+		sb.append("\"" + this.bookName + "\"");
 		sb.append(getGenresString());
-		sb.append(this.count + " шт.\n");
 		return sb.toString();
 	}
 
@@ -112,7 +110,7 @@ public class Book {
 					sb.append(", ");
 			});
 
-			sb.append(")\n");
+			sb.append(")");
 		}
 		return sb.toString();
 	}
@@ -125,7 +123,7 @@ public class Book {
 				if (authors.indexOf(author) < authors.size() - 1)
 					sb.append(", ");
 			});
-			sb.append(": \n");
+			sb.append(": ");
 		}
 		return sb.toString();
 	}
