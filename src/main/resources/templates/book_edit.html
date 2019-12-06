@@ -42,7 +42,8 @@ button {
 		<div class="row">
 			<label for="authors-select">Авторы:</label> 
 			<select multiple id="authors-select">
-				<option  th:each="author : ${authors}" th:text="${author.toString()}" selected="selected">Толстой Лев Николаевич</option>
+				<option  th:each="author : ${authors}" th:text="${author.toString()}" 						
+						 th:selected="${selected_authors.contains(author)}" >Толстой Лев Николаевич</option>
 			</select>
 		</div>
 		<div class="row">
@@ -53,14 +54,12 @@ button {
 		</div>
 
 		<div class="row">
-			<button type="submit" id="save">Сохранить</button>
+			<button type="submit" id="save" name="button" value ="save">Сохранить</button>
 		</div>
 		<div class="row">
-			<button type="submit" id="delete">Удалить</button>
+			<button type="submit" id="delete" name="button" value ="delete">Удалить</button>
 		</div>
-		<div class="row">
-			<button type="reset">Отмена</button>
-		</div>
+		
 	</form>
 </body>
 </html>

@@ -24,7 +24,7 @@ public class Book {
 	private final long id;
 
 	@Column(name = "BOOKNAME")
-	private final String bookName;
+	private String bookName;
 
 	@Column(name = "NUMBERAVAILABLE")
 	private int count;
@@ -74,7 +74,9 @@ public class Book {
 	public String getBookName() {
 		return bookName;
 	}
-
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
 	public List<Genre> getGenres() {
 		return genres;
 	}
