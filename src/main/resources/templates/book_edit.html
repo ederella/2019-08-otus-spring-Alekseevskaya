@@ -41,15 +41,16 @@ button {
 		</div>
 		<div class="row">
 			<label for="authors-select">Авторы:</label> 
-			<select multiple id="authors-select">
-				<option  th:each="author : ${authors}" th:text="${author.toString()}" 						
-						 th:selected="${selected_authors.contains(author)}" >Толстой Лев Николаевич</option>
+			<select multiple id="authors-select" name="authors">
+				<option  th:each="author : ${authors}" th:text="${author.toString()}" th:value="${author.id}"						
+						 th:selected="${selected_authors.contains(author)}">Толстой Лев Николаевич</option>
 			</select>
 		</div>
 		<div class="row">
 			<label for="genres-select">Жанры:</label> 
-			<select multiple id="genres-select">
-				<option  th:each="genre : ${genres}" th:text="${genre.genreName}">Философский роман</option>
+			<select multiple id="genres-select" name="genres">
+				<option  th:each="genre : ${genres}" th:text="${genre.genreName}" th:value="${genre.id}"
+				th:selected="${selected_genres.contains(genre)}">Философский роман</option>
 			</select>
 		</div>
 

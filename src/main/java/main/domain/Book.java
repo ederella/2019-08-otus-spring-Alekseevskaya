@@ -70,7 +70,9 @@ public class Book {
 	public List<Author> getAuthors() {
 		return authors;
 	}
-
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
 	public String getBookName() {
 		return bookName;
 	}
@@ -80,7 +82,9 @@ public class Book {
 	public List<Genre> getGenres() {
 		return genres;
 	}
-
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
+	}
 	public List<String> getGenreNames() {
 		List<String> names = new ArrayList<String>();
 		genres.forEach((genre) -> {

@@ -46,4 +46,7 @@ public class Genre {
 	public void addBook(Book book) {
 		this.books.add(book);
 	}
+	public long getId() {
+		return this.id;
+	}
 }
