@@ -1,0 +1,24 @@
+databaseChangeLog:
+- changeSet:
+    id: 2019-10-20--comments
+    author: veronika
+    createTable:
+      tableName: comments
+      columns:
+      - column:
+          name: id
+          type: long(16)
+          autoIncrement: true
+          constraints:
+            nullable: false
+            primaryKey: true
+            primaryKeyName: pk_comment
+      - column:
+          name: readernickname
+          type: varchar2(500)
+      - column:
+          name: commenttext
+          type: varchar2(5000)
+      - column:
+          name: bookid
+          type: long(16)

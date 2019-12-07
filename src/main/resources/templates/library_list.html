@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>St.Thyme's Online Library</title>
+</head>
+<body>
+	<h1>Онлайн-библиотека имени Св.Тимьяна Неизвестного</h1>
+	<h1>
+		<span style="font-size: 18px;">Сейчас доступны:</span>
+	</h1>
+	<ol>
+		<li th:each="book:${books}">
+			<a th:text="${book.toString()}" th:href="@{/edit(id=${book.id})}" href="book_edit.html">Толстой Лев Николаевич: "Война и Мир" (Философский роман)</a>
+		</li>
+	</ol>
+	<a th:href="@{/create}" href="book_edit.html">Добавить книгу</a>
+</body>
+</html>
