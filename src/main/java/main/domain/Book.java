@@ -100,36 +100,20 @@ public class Book {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getAuthorsString());
+		sb.append(getListString(authors, ",")+ ": ");		
 		sb.append("\"" + this.bookName + "\"");
-		sb.append(getGenresString());
+		sb.append("("+ getListString(genres, ",")+")");
 		return sb.toString();
 	}
 
-	private String getGenresString() {
+	private String getListString(List<?> list, String separator) {
 		StringBuilder sb = new StringBuilder();
-		if (genres != null) {
-			sb.append("(");
-			genres.forEach((genre) -> {
-				sb.append(genre.getGenreName());
-				if (genres.indexOf(genre) < genres.size() - 1)
-					sb.append(", ");
+		if (list != null) {
+			list.forEach((o) -> {
+				sb.append(o.toString());
+				if (list.indexOf(o) < list.size() - 1)
+					sb.append(separator + " ");
 			});
-
-			sb.append(")");
-		}
-		return sb.toString();
-	}
-
-	private String getAuthorsString() {
-		StringBuilder sb = new StringBuilder();
-		if (authors != null) {
-			authors.forEach((author) -> {
-				sb.append(author.toString());
-				if (authors.indexOf(author) < authors.size() - 1)
-					sb.append(", ");
-			});
-			sb.append(": ");
 		}
 		return sb.toString();
 	}
