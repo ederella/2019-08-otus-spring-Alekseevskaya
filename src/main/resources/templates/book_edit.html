@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>St.Thyme's Online Library</title>
@@ -34,23 +35,21 @@ button {
 	<h1>
 		<span style="font-size: 18px;">Изменение книги</span>
 	</h1>
-	<form id="create-form" th:action="@{/edit(id=${book.id})}" th:method="post" action="book_edit.html">
+	<form id="create-form" th:action="@{/edit(id=${id})}" th:method="post" action="book_edit.html">
 		<div class="row">
 			<label for="holder-input">Название:</label> 
-			<input id="holder-input" name="bookName" type="text" th:value="${book.bookName}" value="Война и Мир" />
+			<input id="holder-input" name="bookName" type="text" th:value="Название" value="Война и Мир" />
 		</div>
 		<div class="row">
 			<label for="authors-select">Авторы:</label> 
 			<select multiple id="authors-select" name="authors">
-				<option  th:each="author : ${authors}" th:text="${author.toString()}" th:value="${author.id}"						
-						 th:selected="${selected_authors.contains(author)}">Толстой Лев Николаевич</option>
+				<option th:each="author : ${authorList}" th:text="${author.toString()}" th:value="${author.id}">Толстой Лев Николаевич</option>
 			</select>
 		</div>
 		<div class="row">
 			<label for="genres-select">Жанры:</label> 
 			<select multiple id="genres-select" name="genres">
-				<option  th:each="genre : ${genres}" th:text="${genre.genreName}" th:value="${genre.id}"
-				th:selected="${selected_genres.contains(genre)}">Философский роман</option>
+				<option th:each="genre : ${genreList}" th:text="${genre.genreName}" th:value="${genre.id}">Философский роман</option>
 			</select>
 		</div>
 
@@ -60,7 +59,19 @@ button {
 		<div class="row">
 			<button type="submit" id="delete" name="button" value ="delete">Удалить</button>
 		</div>
-		
+		<p th:text=${id} hidden="true" id="bookId"></p>
 	</form>
+	<script>
+	$(function () 
+		{	
+		$.get('/api/edit?id='+ $('p#bookId').text()).done(function(book){
+			$('input#holder-input').val(book.bookName);
+			book.authors.forEach(function(author){
+				$('select#authors-select option[value='+author.id+']').prop('selected', true);});
+			book.genres.forEach(function(genre){
+				$('select#genres-select option[value='+genre.id+']').prop('selected', true);});			
+			});
+         });
+   </script>
 </body>
 </html>

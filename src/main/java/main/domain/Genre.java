@@ -49,4 +49,7 @@ public class Genre {
 	public long getId() {
 		return this.id;
 	}
+	public String toString() {
+		return getGenreName();
+	}
 }

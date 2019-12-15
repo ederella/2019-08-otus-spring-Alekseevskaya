@@ -42,13 +42,13 @@ button {
 		<div class="row">
 			<label for="authors-select">Авторы:</label> 
 			<select multiple id="authors-select" name="authors">
-				<option  th:each="author : ${authors}" th:text="${author.toString()}" th:value="${author.id}">Толстой Лев Николаевич</option>
+				<option  th:each="author : ${authorList}" th:text="${author.toString()}" th:value="${author.id}">Толстой Лев Николаевич</option>
 			</select>
 		</div>
 		<div class="row">
 			<label for="genres-select">Жанры:</label> 
 			<select multiple id="genres-select" name="genres">
-				<option  th:each="genre : ${genres}" th:text="${genre.genreName}" th:value="${genre.id}">Философский роман</option>
+				<option  th:each="genre : ${genreList}" th:text="${genre.genreName}" th:value="${genre.id}">Философский роман</option>
 			</select>
 		</div>
 
