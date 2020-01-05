@@ -1,51 +1,42 @@
 package main.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="AUTHORS")
+@Document(collection = "authors")
 public class Author {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final long id;
+	private String id;
 	
-	@Column(name="SURNAME")
-	private final String surname;
+	@Field(value = "surname")
+	private String surname;
 	
-	@Column(name="FIRSTNAME")
-	private final String firstname;
+	@Field(value = "name")
+	private String firstname;
 	
-	@Column(name="SECONDNAME")
-	private final String secondname;
+	@Field(value = "secondname")
+	private String secondname;
 
 	public Author(String surname, String fisrtname, String secondname) {
-		this.id = 0L;
 		this.surname = surname;
 		this.firstname = fisrtname;
 		this.secondname = secondname;
 	}
 	
 	public Author(long id, String surname, String fisrtname, String secondname) {
-		this.id = id;
 		this.surname = surname;
 		this.firstname = fisrtname;
 		this.secondname = secondname;
 	}
 
 	public Author() {
-		this.id = 0L;
 		this.surname = "";
 		this.firstname = "";
 		this.secondname = "";
 	}
 	
-	public long getId() {
+	public String getId() {
 		return this.id;
 	}
 	

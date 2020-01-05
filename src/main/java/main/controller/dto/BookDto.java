@@ -4,7 +4,7 @@ import main.domain.Book;
 
 public class BookDto {
 
-	private long id;
+	private String id;
 	private String screenName;
 	private String editLink;
 	
@@ -23,17 +23,17 @@ public class BookDto {
 		this.editLink = editLink;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}	
 	public static BookDto toDto(Book book) {
 		BookDto dto = new BookDto();
 		dto.setId(book.getId());
 		dto.setScreenName(book.toString());
-		dto.setEditLink("/edit?id=" + book.getId());
+		dto.setEditLink("/edit/" + book.getId());
 		return dto;
 	}
 

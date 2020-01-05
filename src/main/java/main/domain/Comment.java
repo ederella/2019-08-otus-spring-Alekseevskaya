@@ -1,57 +1,37 @@
 package main.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
-@Entity
-@Table(name="COMMENTS") 
+@Document(collection = "comments")
 public class Comment {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final long id;
+	private String id;
 	
-	@Column(name ="READERNICKNAME")
+	@Field(value = "readerNickName")
 	private String readerNickName;
 	
-	@Column(name ="COMMENTTEXT")
+	@Field(value = "commentText")
 	private String commentText;
 	
-	@ManyToOne
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinColumn(name ="BOOKID")
+	@DBRef
 	private final Book book;
 
-	public Comment(long id, String readerNickName, String commentText, Book book) {
-		this.id = id;
-		this.setReaderNickName(readerNickName);
-		this.setCommentText(commentText);
-		this.book = book;
-	}
-	public Comment(String readerNickName, String commentText, Book book) {
-		this.id = 0L;
+	public Comment( String readerNickName, String commentText, Book book) {
 		this.setReaderNickName(readerNickName);
 		this.setCommentText(commentText);
 		this.book = book;
 	}
 	
 	public Comment(String commentText, Book book) {
-		this.id = 0L;
 		this.setCommentText(commentText);
 		this.book = book;
 	}
 	
 	public Comment()
 	{
-		this.id = 0L;
 		this.book = null;
 	}
 	public String getReaderNickName() {

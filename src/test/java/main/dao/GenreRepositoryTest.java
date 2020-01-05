@@ -6,31 +6,26 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import main.domain.Genre;
+import reactor.core.publisher.Mono;
 
 @DisplayName("Тест GenreRepository")
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@DataJpaTest
-@ComponentScan(basePackages = { "main.dao" })
+@DataMongoTest
+@ComponentScan(basePackages = { "main.dao", "main.domain" })
 public class GenreRepositoryTest {
 
 	@Autowired
-	GenreRepository db;
-	@Autowired
-	TestEntityManager em;
-	@DisplayName(" должен возвращать жанр по имени")
-	@Test 
-	void shoulReturnGenreByName() {
+	private GenreRepository db;
+	
+	@DisplayName(" должен найти жанр по названию")
+	@Test
+	void shouldFindGenreByName() {
 		Object genre = db.findByGenreName("Сатира");
-		assertThat(genre).isInstanceOf(Genre.class);
-		Genre genreDB = (Genre) em.getEntityManager().createQuery("SELECT g FROM Genre g WHERE g.genreName ='Сатира'").getSingleResult();
-		assertThat((Genre)genre).isEqualToComparingFieldByField(genreDB);
+		assertThat(((Mono)genre).block()).isInstanceOf(Genre.class);
 	}
 }
