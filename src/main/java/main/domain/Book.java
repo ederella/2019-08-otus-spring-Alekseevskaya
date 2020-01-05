@@ -3,55 +3,39 @@ package main.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-@Entity
-@Table(name = "BOOKS")
+@Document(collection = "books")
 public class Book {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final long id;
+	private String id;
 
-	@Column(name = "BOOKNAME")
+	@Field(value = "bookname")
 	private String bookName;
 
-	@Column(name = "NUMBERAVAILABLE")
+	@Field(value = "numberavailable")
 	private int count;
-
-	@ManyToMany
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "BOOK_AUTHOR", joinColumns = @JoinColumn(name = "BOOKID"), inverseJoinColumns = @JoinColumn(name = "AUTHORID"))
+	
+	@DBRef
 	private List<Author> authors;
 
-	@ManyToMany
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "BOOK_GENRE", joinColumns = @JoinColumn(name = "BOOKID"), inverseJoinColumns = @JoinColumn(name = "GENREID"))
 	private List<Genre> genres;
 
 	public Book() {
-		this.id = 0L;
 		this.bookName = "";
 	}
 
 	public Book(List<Author> authors, String bookName, List<Genre> genres) {
-		this.id = 0L;
 		this.authors = authors;
 		this.bookName = bookName;
 		this.genres = genres;
 	}
 
-	public Book(long id, List<Author> authors, String bookName, List<Genre> genres, int number) {
+	public Book(String id, List<Author> authors, String bookName, List<Genre> genres, int number) {
 		this.id = id;
 		this.authors = authors;
 		this.bookName = bookName;
@@ -63,7 +47,7 @@ public class Book {
 		this.count = count;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -82,6 +66,7 @@ public class Book {
 	public List<Genre> getGenres() {
 		return genres;
 	}
+	
 	public void setGenres(List<Genre> genres) {
 		this.genres = genres;
 	}

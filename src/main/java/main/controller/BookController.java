@@ -1,16 +1,15 @@
 package main.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.controller.dto.BookDto;
 import main.dao.BookRepository;
 import main.domain.Book;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class BookController {
@@ -23,13 +22,14 @@ public class BookController {
 	}
 	
 	@GetMapping("/api/books")
-	public List<BookDto> listPage() {
-        return bookRepository.findAll().stream().map(BookDto::toDto).collect(Collectors.toList());
+	public Flux<BookDto> listPage() {
+        return bookRepository.findAll().map(BookDto::toDto);
 	}
 	
-	@GetMapping("/api/edit")
-    public Book editPageParams(@RequestParam("id")int id) {
-        Book b = bookRepository.findById(id);
-        return b;      
+	@GetMapping("/api/edit/{id}")
+    public Mono<Book> editPageParams(@PathVariable("id")String id) {
+        return bookRepository.findById(id);      
     }
+	
+
 }

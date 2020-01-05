@@ -1,16 +1,10 @@
 package main.dao;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import main.domain.Author;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-public interface AuthorRepository extends CrudRepository<Author, Long>{
-	
-	List<Author> findAll();
-
-	Author findById(long id);
-	
-	Author findBySurnameAndFirstnameAndSecondname(String surname, String firstname, String secondname);
+public interface AuthorRepository extends ReactiveMongoRepository<Author, String>{
 }

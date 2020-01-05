@@ -1,55 +1,43 @@
 package main.domain;
 
-import java.util.Set;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.*;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.transaction.annotation.Transactional;
-
-@Entity
-@Table(name="GENRES")
+@Document(collection = "genres")
 public class Genre {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final long id;	
-	@Column(name = "GENRENAME")
-	private final String genreName;
-	
-	@ManyToMany
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "BOOK_GENRE", joinColumns = @JoinColumn(name = "GENREID"), inverseJoinColumns = @JoinColumn(name = "BOOKID"))
-	private Set<Book> books;
-	
-	
-	public Genre(long id, String genreName)
-	{
-		this.id = id;
+	private String id;
+
+	@Field(value = "genreName")
+	private String genreName;
+
+	public Genre(String id, String genreName) {
 		this.genreName = genreName;
 	}
-	
-	public Genre()
-	{
-		this.id = 0L;
+
+	public Genre() {
 		this.genreName = "";
 	}
-	public Genre(String genreName)
-	{
-		this.id = 0L;
+
+	public Genre(String genreName) {
 		this.genreName = genreName;
 	}
 
 	public String getGenreName() {
 		return genreName;
 	}
-	public void addBook(Book book) {
-		this.books.add(book);
+
+	public void setGenreName(String genreName) {
+		this.genreName = genreName;
 	}
-	public long getId() {
-		return this.id;
+
+	public String getId() {
+		return id;
 	}
+
+	@Override
 	public String toString() {
-		return getGenreName();
+		return genreName;
 	}
 }
