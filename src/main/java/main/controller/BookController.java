@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -35,25 +36,24 @@ public class BookController {
 		this.genreRepository = genreRepository;
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/admin")
 	public String listPage(Model model) {
-		List<Book> books= bookRepository.findAll();
-		model.addAttribute("books", books);
-        return "library_list";
+		model.addAttribute("books", bookRepository.findAll());
+        return "admin/library_list";
 	}
 	
-	@GetMapping("/edit")
-    public String editPage(@RequestParam("id") int id, Model model) {
+	@GetMapping("/admin/edit")
+    public String editPage(@RequestParam("id") long id, Model model) {
         Book b = bookRepository.findById(id);
         model.addAttribute("book", b);
         model.addAttribute("authors", authorRepository.findAll());
         model.addAttribute("selected_authors", b.getAuthors());
         model.addAttribute("genres", genreRepository.findAll());
         model.addAttribute("selected_genres", b.getGenres());
-        return "book_edit";
+        return "admin/book_edit";
     }
 
-	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/edit", method=RequestMethod.POST)
 	public String editBook(@RequestParam("id") long id,
 						   @RequestParam("bookName") String bookName,
 						   @RequestParam("authors") long[] authorsIds,
@@ -90,14 +90,14 @@ public class BookController {
 		return authors;
 	}
 	
-	@GetMapping("/create")
+	@GetMapping("/admin/create")
     public String createPage( Model model) {
         model.addAttribute("authors", authorRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll());
-        return "book_create";
+        return "admin/book_create";
     }
 	
-	@RequestMapping(value="/create", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/create", method=RequestMethod.POST)
 	public String createBook( @RequestParam("bookName") String bookName,
 			 				  @RequestParam("authors") long[] authorsIds,
 			 				  @RequestParam("genres") long[] genresIds,

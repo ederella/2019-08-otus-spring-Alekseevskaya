@@ -3,15 +3,15 @@ package main.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Тест Book ")
 @SpringBootTest
-class BookTest {
+public class BookTest {
 
 	Book book;
 
@@ -23,7 +23,7 @@ class BookTest {
 
 	@DisplayName(" должен заполнять поля данными и возвращать их")
 	@Test
-	void shouldFillFieldsAndReturnThem() {
+	public void shouldFillFieldsAndReturnThem() {
 		List<Author> a = new ArrayList<Author>();
 		a.add(author);
 		List<Genre> s = new ArrayList<Genre>();
@@ -39,7 +39,7 @@ class BookTest {
 
 	@DisplayName(" должен устанавливать количество доступных книг")
 	@Test
-	void shouldSetUpNumberOfAvailableBooks() {
+	public void shouldSetUpNumberOfAvailableBooks() {
 		book = new Book(null, "name", null);
 		book.setCount(100);
 		assertThat(book.getCount() == 100);
@@ -47,7 +47,7 @@ class BookTest {
 
 	@DisplayName(" должен возвращать информацию о книге")
 	@Test
-	void shouldReturnAllInfoAboutBook() {
+	public void shouldReturnAllInfoAboutBook() {
 		book = new Book(null, "name", null);
 		Object res = book.toString();
 		assertThat(res).isInstanceOf(String.class);

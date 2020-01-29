@@ -11,9 +11,11 @@
 	</h1>
 	<ol>
 		<li th:each="book:${books}">
-			<a th:text="${book.toString()}" th:href="@{/edit(id=${book.id})}" href="book_edit.html">Толстой Лев Николаевич: "Война и Мир" (Философский роман)</a>
+			<a th:text="${book.toString()}" th:href="@{/admin/edit(id=${book.id})}" href="book_edit.html">Толстой Лев Николаевич: "Война и Мир" (Философский роман)</a>
 		</li>
 	</ol>
-	<a th:href="@{/create}" href="book_edit.html">Добавить книгу</a>
+	<a th:href="@{/admin/create}" href="book_edit.html">Добавить книгу</a>
+	<p>
+	<a th:href="@{/logout}">Выйти</a>
 </body>
 </html>

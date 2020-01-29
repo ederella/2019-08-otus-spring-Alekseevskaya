@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>St.Thyme's Online Library</title>
+</head>
+<body>
+	<h1>Онлайн-библиотека имени Св.Тимьяна Неизвестного</h1>
+	<h1>
+		<span style="font-size: 18px;">Сейчас доступны:</span>
+	</h1>
+	<form id="userlist-form" th:action="@{/library}" th:method="post" name="form">
+		<table border="1" style="text-align: center;">
+			<tr>
+				<th>Название</th>
+				<th>Количество</th>
+			</tr>
+			<tr th:each="book:${books}">
+				<td style="text-align: left;">
+					<input name="selected" type="radio"  th:text="${book.toString()}" th:value="${book.getId()}"></input>
+				</td>
+				<td th:text="${book.getCount()}">10</td>
+			</tr>
+		</table>
+		<p></p>
+		<p></p>
+		<button type="submit" id="save" name="button" value="get">Взять	книгу</button>
+		<button type="submit" id="delete" name="button" value="return">Вернуть книгу</button>
+	</form>
+	<p>
+	<a th:href="@{/logout}">Выйти</a>
+</body>
+</html>
