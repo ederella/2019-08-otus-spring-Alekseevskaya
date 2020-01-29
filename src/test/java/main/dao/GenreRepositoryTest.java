@@ -7,10 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.DisplayName;
 
 import main.domain.Genre;
 
@@ -23,7 +22,7 @@ public class GenreRepositoryTest {
 	GenreRepository db;
 	@Autowired
 	TestEntityManager em;
-	//@DisplayName(" должен возвращать жанр по имени")
+	@DisplayName(" должен возвращать жанр по имени")
 	@Test 
 	public void shoulReturnGenreByName() {
 		Object genre = db.findByGenreName("Сатира");

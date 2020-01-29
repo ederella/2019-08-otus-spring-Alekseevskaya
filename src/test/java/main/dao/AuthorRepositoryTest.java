@@ -12,8 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.DisplayName;
 
 import main.domain.Author;
 
@@ -36,7 +36,7 @@ public class AuthorRepositoryTest {
 		assertThat((Author)author).isEqualToComparingFieldByField(authorDB);
 	}
 
-	//@DisplayName(" должен вернуть список всех авторов")
+	@DisplayName(" должен вернуть список всех авторов")
 	@Test
 	public void shouldReturnListOfAuthors() {
 		List<Author> list1 = db.findAll();
@@ -45,7 +45,7 @@ public class AuthorRepositoryTest {
 
 	}
 
-	//@DisplayName(" должен вернуть автора по id")
+	@DisplayName(" должен вернуть автора по id")
 	@Test
 	public void shouldReturnAnAuthorByID() {
 		author = (Author) em.getEntityManager().createQuery("SELECT a FROM Author a WHERE a.id=1L").getSingleResult();
