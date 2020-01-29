@@ -16,10 +16,10 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 
 	Book findById(long id);
 
-	@Modifying
+	@Modifying(clearAutomatically = true)
 	@Query("update Book b set b.count=:count where b.id=:id")
 	int updateBookCountById(@Param("id") long id, @Param("count")int count);
-
+	
 	long count();
 
 }

@@ -34,7 +34,7 @@ button {
 	<h1>
 		<span style="font-size: 18px;">Изменение книги</span>
 	</h1>
-	<form id="create-form" th:action="@{/edit(id=${book.id})}" th:method="post" action="book_edit.html">
+	<form id="edit-form" th:action="@{/admin/edit(id=${book.id})}" th:method="post" action="admin/book_edit.html">
 		<div class="row">
 			<label for="holder-input">Название:</label> 
 			<input id="holder-input" name="bookName" type="text" th:value="${book.bookName}" value="Война и Мир" />
