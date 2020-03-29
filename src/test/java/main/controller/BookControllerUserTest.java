@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.Model;
 
@@ -25,14 +26,20 @@ public class BookControllerUserTest {
 	@Mock 
 	Model model;
 	
-	@Test
+	@Test	
+    @WithMockUser(
+    		username = "user",
+            authorities = "ROLE_USER")
 	public void shouldReturnListOfBooks() {
 		String templateName = controller.listPage(model);
 		assertThat(model.containsAttribute("books"));
 		assertThat(templateName).isEqualToIgnoringCase("user/library_list");
 	}
 	
-	@Test
+	@Test	
+    @WithMockUser(
+    		username = "user",
+            authorities = "ROLE_USER")
 	public void shouldGetAndReturnABook() {
 		long id = repository.findAll().get(0).getId();
 		long count1 = repository.findById(id).getCount();

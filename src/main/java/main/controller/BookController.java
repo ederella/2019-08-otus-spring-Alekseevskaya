@@ -2,12 +2,8 @@ package main.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +17,7 @@ import main.dao.GenreRepository;
 import main.domain.Author;
 import main.domain.Book;
 import main.domain.Genre;
+import main.security.AclGrants;
 
 @Controller
 public class BookController {
@@ -28,12 +25,17 @@ public class BookController {
 	private final BookRepository bookRepository;
 	private final AuthorRepository authorRepository;
 	private final GenreRepository genreRepository;
+	private final AclGrants acl;
 	
 	@Autowired
-	public BookController(BookRepository bookRepository,AuthorRepository authorRepository,GenreRepository genreRepository) {
+	public BookController(BookRepository bookRepository,
+							AuthorRepository authorRepository,
+							GenreRepository genreRepository,
+							AclGrants acl) {
 		this.bookRepository = bookRepository;
 		this.authorRepository = authorRepository;
 		this.genreRepository = genreRepository;
+		this.acl = acl;
 	}
 	
 	@GetMapping("/admin")
@@ -107,6 +109,7 @@ public class BookController {
 		b.setAuthors(getAuthorsFromIds(authorsIds));
 		b.setGenres(getGenresFromIds(genresIds));
 		bookRepository.save(b);
+		acl.addAclBook(b);
 		return listPage(model);
-	}
+	}	
 }
