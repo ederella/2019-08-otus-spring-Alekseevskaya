@@ -2,14 +2,13 @@ package main.dao;
 
 import java.util.List;
 
+import org.springframework.data.repository.CrudRepository;
+
 import main.domain.Book;
 import main.domain.Comment;
 
-public interface CommentDao {
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-	public void add(Comment comment);
-	
 	List<Comment> findByBook(Book book);
-	
-	int deleteById(long id);
+
 }
