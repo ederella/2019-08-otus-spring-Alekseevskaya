@@ -1,4 +1,24 @@
 spring:
-  liquibase.enabled: true
-  datasource:
-    url: jdbc:h2:mem:homework
+   liquibase:
+      enabled: true
+   datasource:
+      url: jdbc:h2:mem:homework
+   data:
+      rest:
+         basePath: /datarest
+logging:
+    file: ./logfile.log
+    level:
+       root: INFO
+management:
+   endpoints:
+       web:
+          exposure:
+             include: metrics, logfile, health, httptrace
+   endpoint:
+    health:
+      show-details: always
+      defaults:
+         enabled: true
+
+            
