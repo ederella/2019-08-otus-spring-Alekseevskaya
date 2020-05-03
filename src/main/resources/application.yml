@@ -1,4 +1,4 @@
 spring:
    data:
       mongodb: 
-         database: library_db
+         uri=mongodb://library_db:27017/library_db

@@ -1,0 +1,22 @@
+version: '3'
+services:
+   library_db:
+    image: mongo:latest
+    container_name: 'library_db'
+    ports:
+      - 27017:27017
+    volumes:
+      - library_db:/data/library_db
+    restart: always
+   library:
+    build: .
+    ports:
+      - 8080:8080
+    container_name: 'library'
+    links:
+      - library_db
+    depends_on:
+      - library_db  
+volumes:
+  library_db:
+

@@ -11,13 +11,13 @@ import com.mongodb.MongoClient;
 import main.bee.changelog.DatabaseChangeLog;
 
 @Configuration
-public class MongoBeeConfig {
+public class MongoBeeConfigTest {
 
     @Autowired
     private MongoClient mongo;
 
     @Bean
-    public Mongobee mongobee(Environment environment) {
+    public Mongobee mongobeeTest(Environment environment) {
         Mongobee runner = new Mongobee(mongo);
         runner.setDbName("library_db_tst");
         runner.setChangeLogsScanPackage(DatabaseChangeLog.class.getPackage().getName());

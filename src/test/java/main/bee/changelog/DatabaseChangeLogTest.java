@@ -11,7 +11,7 @@ import com.mongodb.DBRef;
 import com.mongodb.client.MongoDatabase;
 
 @ChangeLog
-public class DatabaseChangeLog {
+public class DatabaseChangeLogTest {
 	
     @ChangeSet(order = "000", id = "dropDB", author = "Veronika", runAlways = true)
     public void dropDB(MongoDatabase database){
